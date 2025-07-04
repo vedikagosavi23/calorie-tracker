@@ -1,4 +1,3 @@
-console.log('Server file loaded, routes will be registered...');
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
@@ -20,12 +19,9 @@ app.get('/health', (req, res) => {
 
 // API route should be before static/catch-all
 app.post('/api/analyze-image', async (req, res) => {
-  console.log('[API] /api/analyze-image called');
   try {
     await analyzeImageHandler(req, res);
-    console.log('[API] /api/analyze-image completed');
   } catch (err) {
-    console.error('[API] /api/analyze-image error:', err);
     res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 });

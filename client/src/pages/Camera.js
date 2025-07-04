@@ -105,42 +105,42 @@ export default function Camera() {
       )}
 
       {/* Navigation */}
-      <Flex position="absolute" top={4} left={4} right={4} zIndex={20} justify="space-between">
+      <Flex position="absolute" top={4} left={4} right={4} zIndex={20} justify="space-between" px={{ base: 2, md: 4 }}>
         <IconButton
           bg="whiteAlpha.800"
           borderRadius="full"
           boxShadow="md"
-          icon={<ArrowLeftIcon boxSize={8} />}
-          onClick={() => navigate('/')}
+          icon={<ArrowLeftIcon boxSize={{ base: 6, md: 8 }} />}
+          onClick={() => navigate('/')} 
           aria-label="Back"
-          size="lg"
-          w={12}
-          h={12}
+          size={{ base: 'md', md: 'lg' }}
+          w={{ base: 10, md: 12 }}
+          h={{ base: 10, md: 12 }}
         />
         <Button
           bg="blue.500"
           color="white"
           onClick={() => setShowHelp(true)}
           _hover={{ bg: 'blue.600' }}
-          size="lg"
-          px={6}
-          py={3}
-          fontSize="lg"
+          size={{ base: 'md', md: 'lg' }}
+          px={{ base: 3, md: 6 }}
+          py={{ base: 2, md: 3 }}
+          fontSize={{ base: 'md', md: 'lg' }}
         >
           Help
         </Button>
       </Flex>
 
       {/* Camera view (with aspect ratio) */}
-      <Flex flex={1} w="full" justify="center" align="center" p={4}>
+      <Flex flex={1} w="full" justify="center" align="center" p={{ base: 1, md: 4 }}>
         <Box
           w="full"
-          maxW="1000px"
+          maxW={{ base: '100vw', md: '1000px' }}
           h="auto"
-          aspectRatio="16/9"
+          aspectRatio={{ base: '4/3', md: '16/9' }}
           position="relative"
           overflow="hidden"
-          borderRadius="xl"
+          borderRadius={{ base: 'md', md: 'xl' }}
           boxShadow="xl"
         >
           {isSwitching ? (
@@ -183,78 +183,58 @@ export default function Camera() {
         bottom={0}
         left={0}
         w="full"
-        py={6}
-        px={8}
+        py={{ base: 3, md: 6 }}
+        px={{ base: 2, md: 8 }}
         bg="blackAlpha.700"
         justify="space-between"
         align="center"
         zIndex={20}
-        borderRadius="xl 0"
+        borderRadius={{ base: 'none', md: 'xl 0' }}
+        direction={{ base: 'column', md: 'row' }}
+        gap={{ base: 2, md: 0 }}
       >
         <IconButton
           bg="whiteAlpha.800"
           borderRadius="full"
           boxShadow="md"
-          icon={isSwitching ? <Spinner size="md" /> : <RepeatIcon boxSize={8} />}
+          icon={isSwitching ? <Spinner size="md" /> : <RepeatIcon boxSize={{ base: 6, md: 8 }} />}
           onClick={toggleCamera}
           aria-label="Toggle Camera"
-          isDisabled={isSwitching}
-          size="lg"
-          w={14}
-          h={14}
-        />
-        <Box
-          onClick={capture}
-          w={20}
-          h={20}
-          bg="white"
-          borderRadius="full"
-          borderWidth={5}
-          borderColor={isCapturing ? "red.400" : "gray.300"}
-          boxShadow="xl"
-          _hover={{ transform: 'scale(1.05)' }}
-          _active={{ transform: 'scale(0.95)' }}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            '@keyframes pulse': {
-              '0%': { transform: 'scale(1)', borderColor: 'red.400' },
-              '50%': { transform: 'scale(1.1)', borderColor: 'red.500' },
-              '100%': { transform: 'scale(1)', borderColor: 'red.400' },
-            },
-          }}
-          animation={isCapturing ? "pulse 0.3s" : "none"}
+          size={{ base: 'md', md: 'lg' }}
+          w={{ base: 10, md: 12 }}
+          h={{ base: 10, md: 12 }}
         />
         <Button
-          bg="green.500"
-          color="white"
+          colorScheme="blue"
+          onClick={capture}
+          isLoading={isCapturing}
+          size={{ base: 'md', md: 'lg' }}
+          px={{ base: 4, md: 8 }}
+          py={{ base: 2, md: 4 }}
+          fontSize={{ base: 'lg', md: '2xl' }}
           borderRadius="full"
-          boxShadow="md"
+        >
+          Capture
+        </Button>
+        <Button
+          colorScheme="gray"
           onClick={handleUploadClick}
-          _hover={{ bg: 'green.600' }}
-          size="lg"
-          px={6}
-          py={3}
-          fontSize="lg"
-          leftIcon={
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="24" height="24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-            </svg>
-          }
+          size={{ base: 'sm', md: 'md' }}
+          px={{ base: 2, md: 4 }}
+          py={{ base: 1, md: 2 }}
+          fontSize={{ base: 'sm', md: 'md' }}
+          borderRadius="full"
         >
           Upload
         </Button>
+        <Input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          display="none"
+          onChange={handleFileUpload}
+        />
       </Flex>
-
-      {/* File input */}
-      <Input
-        ref={fileInputRef}
-        type="file"
-        accept="image/jpeg,image/png,image/jpg,image/bmp,image/gif,image/tiff,image/heic"
-        onChange={handleFileUpload}
-        display="none"
-      />
     </Flex>
   );
 }

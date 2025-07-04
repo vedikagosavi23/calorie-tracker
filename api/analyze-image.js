@@ -1,7 +1,6 @@
 const axios = require('axios');
 
 module.exports = async function handler(req, res) {
-  console.log('[analyze-image] Handler called');
   if (req.method !== 'POST') {
     console.warn('[analyze-image] Method Not Allowed:', req.method);
     res.status(405).json({ error: 'Method Not Allowed' });
@@ -33,7 +32,6 @@ module.exports = async function handler(req, res) {
     if (prefix.includes('tiff')) mimeType = 'image/tiff';
     if (prefix.includes('heic')) mimeType = 'image/heic';
   }
-  console.log('[analyze-image] Image received, mimeType:', mimeType);
 
   const prompt = `You are a food recognition and nutrition expert. Analyze the food items in this image. For each distinct food item you see, provide a JSON array element with these fields: food (string), estimated_calories (number, kcal), and confidence (0-1, number). Respond ONLY with a valid JSON array, no extra text or explanation. also provide calories based on the size of the food not anly item like if it is half part of some food then show half calories, be logical, practical`;
 
@@ -55,11 +53,9 @@ module.exports = async function handler(req, res) {
 
   try {
     const endpoint = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    console.log('[analyze-image] Sending request to Gemini API...');
     const response = await axios.post(endpoint, body, {
       headers: { "Content-Type": "application/json" }
     });
-    console.log('[analyze-image] Gemini API response received');
     res.status(200).json({ gemini: response.data });
   } catch (err) {
     console.error('[analyze-image] Error from Gemini API:', err.response?.data || err.message);

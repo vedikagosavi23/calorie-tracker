@@ -19,8 +19,6 @@ export default function Results() {
     setError(null);
     setResults([]);
     setRawText('');
-    console.log('🚀 Sending image to backend for Gemini analysis...');
-    console.log('About to send image to backend:', image);
     axios.post('/api/analyze-image', { image })
       .then(res => {
         // Try to parse Gemini's response
