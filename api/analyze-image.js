@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-module.exports = async function handler(req, res) {
+export default  async function handler(req, res) {
   console.log('[analyze-image] Handler called');
   if (req.method !== 'POST') {
     console.warn('[analyze-image] Method Not Allowed:', req.method);
